@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 const SITE_URL = 'https://dihdevil.me'
-const TWEET_TEXT = 'See through walls. 👁️ Radar vision by Daredevil AI'
+const TWEET_TEXT = 'I just ran this through dihdevil.me -- edge detection in your browser, no upload needed.'
 
 export interface ResultDisplayProps {
   original: string
