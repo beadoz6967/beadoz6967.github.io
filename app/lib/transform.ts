@@ -70,7 +70,7 @@ function applySobel(
       }
 
       const magnitude = Math.sqrt(gx * gx + gy * gy)
-      if (magnitude > 90) {
+      if (magnitude > 70) {
         const i = (y * width + x) * 4
         const strength = Math.min(magnitude / 200, 1)
         data[i]     = Math.round(200 + 55 * strength)

@@ -1,8 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
 
-export interface RadarPulseProps {}
-
 type RectShape = { type: 'rect'; x: number; y: number; w: number; h: number }
 type LineShape = { type: 'line'; x1: number; y1: number; x2: number; y2: number }
 type Shape = RectShape | LineShape
@@ -18,7 +16,7 @@ const SHAPES: Shape[] = [
   { type: 'line', x1:  -50, y1:   60, x2:   50,  y2:  80  },
 ]
 
-export default function RadarPulse(_props: RadarPulseProps) {
+export default function RadarPulse() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {

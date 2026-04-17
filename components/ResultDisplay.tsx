@@ -71,8 +71,8 @@ export default function ResultDisplay({ original, transformed, onReset }: Result
         <span className="corner bl" />
         <span className="corner br" />
 
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={transformed}
             alt="Radar sense vision"

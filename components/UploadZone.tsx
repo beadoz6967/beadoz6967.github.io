@@ -60,7 +60,7 @@ export default function UploadZone({ onFile }: UploadZoneProps) {
       className={[
         'bracket relative cursor-pointer select-none transition-colors duration-200',
         'flex flex-col items-center justify-center gap-4',
-        'w-full max-w-lg mx-auto aspect-video rounded-sm p-8',
+        'w-full max-w-lg mx-auto aspect-square sm:aspect-video rounded-sm p-5 sm:p-8',
         'border-2 border-dashed',
         isDragging
           ? 'border-crimson-bright bg-[#0a0000]'
