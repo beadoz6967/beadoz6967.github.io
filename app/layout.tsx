@@ -48,7 +48,7 @@ export default function RootLayout({
         {children}
         <footer className="text-center py-6">
           <p className="font-mono text-[10px] text-bone-dim opacity-40">
-            dihdevil.me · Powered by Canvas API · Hell&apos;s Kitchen, NYC
+            dihdevil.me
           </p>
         </footer>
       </body>
