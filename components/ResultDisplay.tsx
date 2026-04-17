@@ -24,7 +24,7 @@ export default function ResultDisplay({ original, transformed, onReset }: Result
   const handleDownload = useCallback(() => {
     const a = document.createElement('a')
     a.href = transformed
-    a.download = 'radar-sense.png'
+    a.download = 'output.png'
     a.click()
   }, [transformed])
 
@@ -53,18 +53,13 @@ export default function ResultDisplay({ original, transformed, onReset }: Result
         </>
       </div>
 
-      {/* Quote */}
-      <p className="font-crimson italic text-bone-dim text-base text-center">
-        &ldquo;The city screams its shapes to me.&rdquo;
-      </p>
-
       {/* Controls */}
       <div className="flex flex-wrap gap-3 justify-center">
         <button
           onClick={handleToggle}
           className="font-mono text-xs tracking-widest uppercase px-4 py-2 border border-crimson text-crimson hover:bg-crimson/10 transition-colors"
         >
-          {showOriginal ? 'Showing Original' : 'Showing Radar Sense'}
+          {showOriginal ? 'Original' : 'Processed'}
         </button>
 
         <button

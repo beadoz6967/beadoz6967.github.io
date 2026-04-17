@@ -27,13 +27,7 @@ export default function NavBar(_props: NavBarProps) {
         </span>
       </div>
 
-      {/* Status indicator */}
-      <div className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-crimson animate-pulse inline-block" />
-        <span className="font-mono text-xs text-bone-dim tracking-widest uppercase">
-          Radar Online
-        </span>
-      </div>
+      <span className="w-2 h-2 rounded-full bg-crimson animate-pulse inline-block" />
     </nav>
   )
 }

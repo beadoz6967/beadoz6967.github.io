@@ -81,20 +81,17 @@ export default function Home() {
           >
             {/* Hero text */}
             <div className="text-center space-y-3">
-              <p className="font-mono text-crimson text-xs tracking-widest uppercase">
-                Hell&apos;s Kitchen · Radar Sense Protocol
-              </p>
               <h1 className="font-oswald text-6xl md:text-8xl uppercase leading-none">
-                <span className="text-bone">World on </span>
+                <span className="text-bone">dih</span>
                 <span
                   className="text-crimson"
                   style={{ textShadow: '0 0 20px #cc0000' }}
                 >
-                  Fire
+                  devil
                 </span>
               </h1>
-              <p className="font-crimson italic text-bone-dim text-lg">
-                Upload a photo. The Devil sees what you cannot.
+              <p className="font-mono text-bone-dim text-sm tracking-wide">
+                Edge detection for any image.
               </p>
             </div>
 
@@ -114,14 +111,6 @@ export default function Home() {
             {...stageFade}
             className="flex flex-col items-center gap-8 w-full max-w-2xl"
           >
-            <div className="text-center">
-              <p className="font-mono text-crimson text-xs tracking-widest uppercase">
-                Radar Sense Active
-              </p>
-              <h2 className="font-oswald text-4xl uppercase text-bone mt-1">
-                Signal Acquired
-              </h2>
-            </div>
             <ResultDisplay
               original={original}
               transformed={transformed}
@@ -137,7 +126,7 @@ export default function Home() {
             className="flex flex-col items-center gap-6 text-center"
           >
             <p className="font-oswald text-crimson text-4xl uppercase">
-              Signal Lost
+              Error
             </p>
             <p className="font-mono text-bone-dim text-sm max-w-sm">{errorMsg}</p>
             <button
