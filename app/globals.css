@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* Custom theme — replaces tailwind.config.ts for Tailwind v4 */
+@theme {
+  --color-void: #000000;
+  --color-void-soft: #0a0a0a;
+  --color-crimson: #cc0000;
+  --color-crimson-bright: #ff1a1a;
+  --color-crimson-dim: #660000;
+  --color-ash: #1a1a1a;
+  --color-ash-light: #2a2a2a;
+  --color-bone: #e8e0d0;
+  --color-bone-dim: #8a8070;
+
+  --font-oswald: var(--font-oswald), sans-serif;
+  --font-crimson: var(--font-crimson), serif;
+  --font-mono: var(--font-share-tech), monospace;
+}
+
+/* Scanlines overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* Film grain — TODO: add noise.png to /public */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background-image: url('/noise.png');
+  opacity: 0.04;
+}
+
+/* Red glow utility */
+.glow-crimson {
+  box-shadow: 0 0 8px #cc0000, 0 0 24px rgba(204, 0, 0, 0.4);
+}
+
+/* Corner bracket utility — add 4 <span class="corner ..."> children */
+.bracket {
+  position: relative;
+}
+
+.corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: #cc0000;
+  border-style: solid;
+}
+
+.corner.tl {
+  top: -2px;
+  left: -2px;
+  border-width: 2px 0 0 2px;
+}
+
+.corner.tr {
+  top: -2px;
+  right: -2px;
+  border-width: 2px 2px 0 0;
+}
+
+.corner.bl {
+  bottom: -2px;
+  left: -2px;
+  border-width: 0 0 2px 2px;
+}
+
+.corner.br {
+  bottom: -2px;
+  right: -2px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Radar ring animation */
+@keyframes radar-ring {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Radar sweep animation */
+@keyframes radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Scan reveal animation */
+@keyframes scan-reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0% 0);
+  }
+}
+
+.animate-scan-reveal {
+  animation: scan-reveal 1.2s ease-out forwards;
+}
