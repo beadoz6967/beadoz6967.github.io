@@ -2,6 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
+const SITE_URL = 'https://dihdevil.me'
+const TWEET_TEXT = 'See through walls. 👁️ Radar vision by Daredevil AI'
+
 export interface ResultDisplayProps {
   original: string
   transformed: string
@@ -27,6 +30,37 @@ export default function ResultDisplay({ original, transformed, onReset }: Result
     a.download = 'output.png'
     a.click()
   }, [transformed])
+
+  const handleCopyImage = useCallback(async () => {
+    const img = new Image()
+    img.src = transformed
+    await new Promise<void>((resolve) => { img.onload = () => resolve() })
+    const canvas = document.createElement('canvas')
+    canvas.width = img.width
+    canvas.height = img.height
+    canvas.getContext('2d')!.drawImage(img, 0, 0)
+    canvas.toBlob(async (blob) => {
+      if (!blob) return
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+    }, 'image/png')
+  }, [transformed])
+
+  const handleShare = useCallback(async () => {
+    const res = await fetch(transformed)
+    const blob = await res.blob()
+    const file = new File([blob], 'dihdevil.png', { type: 'image/png' })
+    if (navigator.share && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: 'Radar Vision', url: SITE_URL })
+    } else {
+      await navigator.clipboard.writeText(SITE_URL)
+    }
+  }, [transformed])
+
+  const handleTwitter = useCallback(() => {
+    const text = encodeURIComponent(TWEET_TEXT)
+    const url = encodeURIComponent(SITE_URL)
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
+  }, [])
 
   return (
     <div className="flex flex-col items-center gap-6 w-full max-w-2xl mx-auto">
@@ -67,6 +101,27 @@ export default function ResultDisplay({ original, transformed, onReset }: Result
           className="font-mono text-xs tracking-widest uppercase px-4 py-2 bg-crimson text-void hover:bg-crimson-bright transition-colors"
         >
           Download
+        </button>
+
+        <button
+          onClick={handleCopyImage}
+          className="font-mono text-xs tracking-widest uppercase px-4 py-2 bg-crimson text-void hover:bg-crimson-bright transition-colors"
+        >
+          Copy Image
+        </button>
+
+        <button
+          onClick={handleShare}
+          className="font-mono text-xs tracking-widest uppercase px-4 py-2 bg-crimson text-void hover:bg-crimson-bright transition-colors"
+        >
+          Share
+        </button>
+
+        <button
+          onClick={handleTwitter}
+          className="font-mono text-xs tracking-widest uppercase px-4 py-2 bg-crimson text-void hover:bg-crimson-bright transition-colors"
+        >
+          Twitter
         </button>
 
         <button
