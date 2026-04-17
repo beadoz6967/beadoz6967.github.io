@@ -1,5 +1,49 @@
-// This file runs client-side only. No Node APIs.
 'use client'
+
+function gaussianBlur(
+  luma: Float32Array,
+  width: number,
+  height: number,
+  radius: number
+): Float32Array {
+  const kernel: number[] = []
+  let sum = 0
+  const sigma = radius / 2
+
+  for (let i = -radius; i <= radius; i++) {
+    const val = Math.exp(-(i * i) / (2 * sigma * sigma))
+    kernel.push(val)
+    sum += val
+  }
+  kernel.forEach((v, i) => (kernel[i] = v / sum))
+
+  const blurred = new Float32Array(luma.length)
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      let acc = 0
+      for (let i = -radius; i <= radius; i++) {
+        const nx = Math.max(0, Math.min(width - 1, x + i))
+        acc += luma[y * width + nx] * kernel[i + radius]
+      }
+      blurred[y * width + x] = acc
+    }
+  }
+
+  const final = new Float32Array(luma.length)
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
+      let acc = 0
+      for (let i = -radius; i <= radius; i++) {
+        const ny = Math.max(0, Math.min(height - 1, y + i))
+        acc += blurred[ny * width + x] * kernel[i + radius]
+      }
+      final[y * width + x] = acc
+    }
+  }
+
+  return final
+}
 
 function applySobel(
   luma: Float32Array,
@@ -26,16 +70,50 @@ function applySobel(
       }
 
       const magnitude = Math.sqrt(gx * gx + gy * gy)
-      if (magnitude > 40) {
+      if (magnitude > 90) {
         const i = (y * width + x) * 4
-        // Additive edge highlight — only upgrades pixels on strong edges
-        data[i] = 255
-        data[i + 1] = 26
-        data[i + 2] = 26
-        data[i + 3] = 255
+        const strength = Math.min(magnitude / 200, 1)
+        data[i]     = Math.round(200 + 55 * strength)
+        data[i + 1] = Math.round(15  * (1 - strength))
+        data[i + 2] = Math.round(15  * (1 - strength))
+        data[i + 3] = Math.round(200 + 55 * strength)
       }
     }
   }
+}
+
+function drawRadarRings(ctx: CanvasRenderingContext2D, width: number, height: number): void {
+  const cx = width / 2
+  const cy = height / 2
+  const maxR = Math.sqrt(cx * cx + cy * cy) * 1.2
+  const ringSpacing = maxR / 5
+
+  ctx.strokeStyle = 'rgba(200,0,0,0.4)'
+  ctx.lineWidth = 1.2
+
+  for (let r = ringSpacing; r < maxR; r += ringSpacing) {
+    ctx.beginPath()
+    ctx.arc(cx, cy, r, 0, Math.PI * 2)
+    ctx.stroke()
+  }
+
+  // Center sweep line at fixed angle (0 rad)
+  ctx.strokeStyle = 'rgba(220,0,0,0.6)'
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(cx, cy)
+  ctx.lineTo(cx + maxR, cy)
+  ctx.stroke()
+}
+
+function addVignette(ctx: CanvasRenderingContext2D, width: number, height: number): void {
+  const gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, Math.max(width, height))
+  gradient.addColorStop(0, 'rgba(0,0,0,0)')
+  gradient.addColorStop(0.7, 'rgba(0,0,0,0.2)')
+  gradient.addColorStop(1, 'rgba(150,0,0,0.4)')
+
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, width, height)
 }
 
 export async function transformToRadarSense(file: File): Promise<string> {
@@ -47,16 +125,15 @@ export async function transformToRadarSense(file: File): Promise<string> {
 
       img.onload = () => {
         try {
-          // Step 1 — Resize to max 800px, preserve aspect ratio
           const maxWidth = 800
           const targetWidth = img.width <= maxWidth ? img.width : maxWidth
           const targetHeight = Math.round((img.height / img.width) * targetWidth)
 
-          const offscreenCanvas = document.createElement('canvas')
-          offscreenCanvas.width = targetWidth
-          offscreenCanvas.height = targetHeight
+          const canvas = document.createElement('canvas')
+          canvas.width = targetWidth
+          canvas.height = targetHeight
 
-          const ctx = offscreenCanvas.getContext('2d')
+          const ctx = canvas.getContext('2d')
           if (!ctx) throw new Error('Could not get 2D context')
 
           ctx.drawImage(img, 0, 0, targetWidth, targetHeight)
@@ -64,45 +141,41 @@ export async function transformToRadarSense(file: File): Promise<string> {
           const imageData = ctx.getImageData(0, 0, targetWidth, targetHeight)
           const { data } = imageData
 
-          // Store luminance values BEFORE threshold pass (needed for Sobel)
+          // Compute luminance
           const luma = new Float32Array(targetWidth * targetHeight)
           for (let i = 0; i < data.length; i += 4) {
             luma[i / 4] = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]
           }
 
-          // Step 2 — Luminance threshold pass
+          // Blur to reduce noise
+          const blurred = gaussianBlur(luma, targetWidth, targetHeight, 3)
+
+          // Fill black
           for (let i = 0; i < data.length; i += 4) {
-            const L = luma[i / 4]
-            if (L > 30) {
-              data[i] = 204      // #cc0000
-              data[i + 1] = 0
-              data[i + 2] = 0
-              data[i + 3] = 255
-            } else {
-              data[i] = 0        // #000000
-              data[i + 1] = 0
-              data[i + 2] = 0
-              data[i + 3] = 255
-            }
+            data[i] = 0
+            data[i + 1] = 0
+            data[i + 2] = 0
+            data[i + 3] = 255
           }
 
+          // Sobel on blurred luminance
+          applySobel(blurred, targetWidth, targetHeight, data)
           ctx.putImageData(imageData, 0, 0)
 
-          // Step 3 — Sobel edge detection on original luminance, applied additively
-          const edgeData = ctx.getImageData(0, 0, targetWidth, targetHeight)
-          applySobel(luma, targetWidth, targetHeight, edgeData.data)
-          ctx.putImageData(edgeData, 0, 0)
-
-          // Step 4 — CSS filter pass for contrast/brightness
+          // Contrast pass
           const resultCanvas = document.createElement('canvas')
           resultCanvas.width = targetWidth
           resultCanvas.height = targetHeight
-
           const resultCtx = resultCanvas.getContext('2d')
-          if (!resultCtx) throw new Error('Could not get result 2D context')
+          if (!resultCtx) throw new Error('Could not get result context')
+          resultCtx.filter = 'contrast(1.4) brightness(1.15)'
+          resultCtx.drawImage(canvas, 0, 0)
 
-          resultCtx.filter = 'contrast(1.4) brightness(0.9)'
-          resultCtx.drawImage(offscreenCanvas, 0, 0)
+          // Draw radar rings overlay
+          drawRadarRings(resultCtx, targetWidth, targetHeight)
+
+          // Add vignette
+          addVignette(resultCtx, targetWidth, targetHeight)
 
           resolve(resultCanvas.toDataURL('image/png'))
         } catch (err) {
