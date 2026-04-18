@@ -64,6 +64,11 @@ export default function ResultDisplay({ original, transformed, onReset }: Result
 
   return (
     <div className="flex flex-col items-center gap-6 w-full max-w-2xl mx-auto">
+      <div className="w-full border border-crimson-dim/40 bg-black/25 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+        <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-crimson">Output</p>
+        <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-bone-dim">Switch view, then export or share</p>
+      </div>
+
       {/* Image container with bracket corners */}
       <div className="bracket relative w-full">
         <span className="corner tl" />
@@ -88,47 +93,48 @@ export default function ResultDisplay({ original, transformed, onReset }: Result
       </div>
 
       {/* Controls */}
-      <div className="flex flex-wrap gap-3 justify-center">
-        <button
-          onClick={handleToggle}
-          className="font-mono text-xs tracking-widest uppercase px-4 py-2 border border-crimson text-crimson hover:bg-crimson/10 transition-colors"
-        >
-          {showOriginal ? 'Original' : 'Processed'}
-        </button>
+      <div className="w-full border border-crimson-dim/35 bg-black/20 p-3 sm:p-4 grid gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button
+            onClick={handleToggle}
+            className="font-mono text-xs tracking-widest uppercase px-4 py-3 border border-crimson text-crimson hover:bg-crimson/10 transition-colors"
+          >
+            View: {showOriginal ? 'Original' : 'Processed'}
+          </button>
+          <button
+            onClick={handleDownload}
+            className="font-mono text-xs tracking-widest uppercase px-4 py-3 bg-crimson text-void hover:bg-crimson-bright transition-colors"
+          >
+            Download PNG
+          </button>
+        </div>
 
-        <button
-          onClick={handleDownload}
-          className="font-mono text-xs tracking-widest uppercase px-4 py-2 bg-crimson text-void hover:bg-crimson-bright transition-colors"
-        >
-          Download
-        </button>
-
-        <button
-          onClick={handleCopyImage}
-          className="font-mono text-xs tracking-widest uppercase px-4 py-2 bg-crimson text-void hover:bg-crimson-bright transition-colors"
-        >
-          Copy Image
-        </button>
-
-        <button
-          onClick={handleShare}
-          className="font-mono text-xs tracking-widest uppercase px-4 py-2 bg-crimson text-void hover:bg-crimson-bright transition-colors"
-        >
-          Share
-        </button>
-
-        <button
-          onClick={handleTwitter}
-          className="font-mono text-xs tracking-widest uppercase px-4 py-2 bg-crimson text-void hover:bg-crimson-bright transition-colors"
-        >
-          Twitter
-        </button>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <button
+            onClick={handleCopyImage}
+            className="font-mono text-xs tracking-widest uppercase px-3 py-2 border border-crimson-dim text-bone hover:border-crimson/70 transition-colors"
+          >
+            Copy
+          </button>
+          <button
+            onClick={handleShare}
+            className="font-mono text-xs tracking-widest uppercase px-3 py-2 border border-crimson-dim text-bone hover:border-crimson/70 transition-colors"
+          >
+            Share
+          </button>
+          <button
+            onClick={handleTwitter}
+            className="font-mono text-xs tracking-widest uppercase px-3 py-2 border border-crimson-dim text-bone hover:border-crimson/70 transition-colors"
+          >
+            Twitter
+          </button>
+        </div>
 
         <button
           onClick={onReset}
           className="font-mono text-xs tracking-widest uppercase px-4 py-2 border border-bone-dim/30 text-bone-dim hover:border-bone-dim/60 hover:text-bone transition-colors"
         >
-          New Photo
+          Process New Photo
         </button>
       </div>
     </div>

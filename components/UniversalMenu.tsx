@@ -2,84 +2,52 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
 
 const NAV_LINKS = [
-  { href: '/', label: 'Matt Murdock' },
+  { href: '/', label: 'Radar Lab' },
   { href: '/smokedope2016', label: 'smokedope2016' },
 ]
 
 export default function UniversalMenu() {
   const pathname = usePathname()
-  const [hovered, setHovered] = useState<string | null>(null)
 
   return (
     <nav
       aria-label="Site navigation"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 9000,
-        backgroundColor: '#f2f2f2',
-        borderBottom: '1px solid #888888',
-        height: '32px',
-        display: 'flex',
-        alignItems: 'stretch',
-      }}
+      className="fixed top-0 left-0 right-0 z-[9000] border-b border-crimson-dim/45 bg-black/80 backdrop-blur-md"
     >
-      {/* Pixel icon box */}
-      <div
-        style={{
-          width: '32px',
-          height: '32px',
-          flexShrink: 0,
-          backgroundColor: '#c0c0c0',
-          borderRight: '1px solid #888888',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-          <rect x="1" y="1" width="7" height="7" fill="#000080" />
-          <rect x="10" y="1" width="7" height="7" fill="#800000" />
-          <rect x="1" y="10" width="7" height="7" fill="#006400" />
-          <rect x="10" y="10" width="7" height="7" fill="#000000" />
-        </svg>
-      </div>
+      <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-3 sm:px-5">
+        <Link href="/" className="group inline-flex items-center gap-2">
+          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-crimson/60">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-crimson group-hover:animate-pulse" />
+          </span>
+          <span className="font-oswald text-sm uppercase tracking-[0.17em] text-bone">
+            dihdevil
+          </span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-bone-dim">
+            system
+          </span>
+        </Link>
 
-      {/* Nav links */}
-      <div style={{ display: 'flex', alignItems: 'stretch' }}>
-        {NAV_LINKS.map(({ href, label }) => {
-          const isActive = pathname === href
-          const isHovered = hovered === href
-          return (
-            <Link
-              key={href}
-              href={href}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '0 12px',
-                height: '100%',
-                fontFamily: 'Arial, Helvetica, sans-serif',
-                fontSize: '12px',
-                color: '#000000',
-                textDecoration: 'none',
-                fontWeight: isActive ? 'bold' : 'normal',
-                borderBottom: isActive ? '2px solid #000000' : '2px solid transparent',
-                backgroundColor: isHovered ? '#e0e0e0' : isActive ? '#dcdcdc' : 'transparent',
-                borderRight: '1px solid #cccccc',
-              }}
-              onMouseEnter={() => setHovered(href)}
-              onMouseLeave={() => setHovered(null)}
-            >
-              {label}
-            </Link>
-          )
-        })}
+        <div className="flex items-center gap-1.5">
+          {NAV_LINKS.map(({ href, label }) => {
+            const isActive = pathname === href
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={[
+                  'px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors border',
+                  isActive
+                    ? 'border-crimson/70 text-crimson bg-crimson/10'
+                    : 'border-transparent text-bone-dim hover:text-bone hover:border-crimson-dim/60',
+                ].join(' ')}
+              >
+                {label}
+              </Link>
+            )
+          })}
+        </div>
       </div>
     </nav>
   )

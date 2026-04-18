@@ -71,31 +71,57 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center pt-20 pb-8 px-4">
+    <main className="min-h-screen flex flex-col items-center justify-center pt-20 pb-8 px-4 relative overflow-hidden">
+      <div aria-hidden="true" className="hero-aurora" />
       <AnimatePresence mode="wait">
         {stage === 'idle' && (
           <motion.div
             key="idle"
             {...stageFade}
-            className="flex flex-col items-center gap-8 w-full max-w-2xl"
+            className="w-full max-w-6xl"
           >
-            {/* Hero text */}
-            <div className="text-center space-y-3">
-              <h1 className="font-oswald text-6xl md:text-8xl uppercase leading-none">
-                <span className="text-bone">dih</span>
-                <span
-                  className="text-crimson"
-                  style={{ textShadow: '0 0 20px #cc0000' }}
-                >
-                  devil
-                </span>
-              </h1>
-              <p className="font-mono text-bone-dim text-sm tracking-wide">
-                Edge detection for any image.
-              </p>
-            </div>
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:gap-10 items-stretch">
+              <div className="relative border border-crimson-dim/50 bg-void-soft/80 backdrop-blur-sm p-6 md:p-10 clip-panel flex flex-col justify-between">
+                <div className="space-y-5">
+                  <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-crimson/80">
+                    North Star: Detect what the eye misses.
+                  </p>
+                  <h1 className="font-oswald text-6xl md:text-8xl uppercase leading-[0.85] max-w-2xl">
+                    <span className="text-bone">dih</span>{' '}
+                    <span className="text-crimson" style={{ textShadow: '0 0 20px #cc0000' }}>
+                      devil
+                    </span>
+                  </h1>
+                  <p className="font-crimson text-xl md:text-2xl italic text-bone/90 max-w-xl leading-snug">
+                    Browser-only radar sense for photos. No upload. No queue. One decisive pass.
+                  </p>
+                </div>
 
-            <UploadZone onFile={handleFile} />
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8">
+                  <div className="border border-crimson-dim/50 bg-black/30 px-3 py-3">
+                    <p className="font-mono text-[10px] tracking-[0.16em] uppercase text-bone-dim">Persona</p>
+                    <p className="font-mono text-xs text-bone mt-1">Fast creator on mobile + desktop</p>
+                  </div>
+                  <div className="border border-crimson-dim/50 bg-black/30 px-3 py-3">
+                    <p className="font-mono text-[10px] tracking-[0.16em] uppercase text-bone-dim">Emotion</p>
+                    <p className="font-mono text-xs text-bone mt-1">Tense, tactile, cinematic</p>
+                  </div>
+                  <div className="border border-crimson-dim/50 bg-black/30 px-3 py-3">
+                    <p className="font-mono text-[10px] tracking-[0.16em] uppercase text-bone-dim">Promise</p>
+                    <p className="font-mono text-xs text-bone mt-1">Processed in seconds, entirely local</p>
+                  </div>
+                </div>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.12 }}
+                className="self-stretch"
+              >
+                <UploadZone onFile={handleFile} />
+              </motion.div>
+            </div>
           </motion.div>
         )}
 

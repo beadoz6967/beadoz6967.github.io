@@ -45,10 +45,15 @@ export default function RootLayout({
       >
         <UniversalMenu />
         {children}
-        <footer className="text-center py-6">
-          <p className="font-mono text-[10px] text-bone-dim opacity-40">
-            dihdevil.me
-          </p>
+        <footer className="px-4 py-6">
+          <div className="mx-auto max-w-7xl border border-crimson-dim/35 bg-black/30 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+            <p className="font-mono text-[10px] text-bone-dim uppercase tracking-[0.18em]">
+              dihdevil.me
+            </p>
+            <p className="font-mono text-[10px] text-bone-dim/70 uppercase tracking-[0.14em]">
+              local processing · no cloud upload
+            </p>
+          </div>
         </footer>
       </body>
     </html>

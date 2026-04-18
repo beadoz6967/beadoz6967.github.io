@@ -4,6 +4,7 @@
 @theme {
   --color-void: #000000;
   --color-void-soft: #0a0a0a;
+  --color-void-deep: #060607;
   --color-crimson: #cc0000;
   --color-crimson-bright: #ff1a1a;
   --color-crimson-dim: #660000;
@@ -15,6 +16,34 @@
   --font-oswald: var(--font-oswald), sans-serif;
   --font-crimson: var(--font-crimson), serif;
   --font-mono: var(--font-mono), monospace;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(circle at 10% 15%, rgba(204, 0, 0, 0.16), transparent 34%),
+    radial-gradient(circle at 85% 80%, rgba(120, 0, 0, 0.2), transparent 36%),
+    linear-gradient(165deg, #040405 0%, #09090a 55%, #040405 100%);
+}
+
+.hero-aurora {
+  position: absolute;
+  inset: -10% -20% auto;
+  height: 70vh;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 20% 25%, rgba(255, 20, 20, 0.12), transparent 34%),
+    radial-gradient(circle at 70% 15%, rgba(180, 0, 0, 0.2), transparent 36%);
+  filter: blur(18px);
+}
+
+.clip-panel {
+  clip-path: polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 0 100%);
 }
 
 /* Scanlines overlay */
@@ -120,4 +149,10 @@ body::before {
 
 .animate-scan-reveal {
   animation: scan-reveal 1.2s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scan-reveal {
+    animation: none;
+  }
 }

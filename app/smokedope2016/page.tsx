@@ -51,6 +51,12 @@ const LINKS = [
   { label: 'YouTube', href: 'https://www.youtube.com/@smokedope2016' },
 ]
 
+const SITE_BRIEF = [
+  { label: 'North Star', value: 'Build lore, not a generic artist template.' },
+  { label: 'Persona', value: 'Listeners digging narrative and deep cuts.' },
+  { label: 'Emotion', value: 'Afterparty heat fading into stillness.' },
+]
+
 // Group tracks by project for setlist rendering, preserving album order.
 const TRACK_SETS = TRILOGY.map((album) => ({
   numeral: album.numeral,
@@ -68,6 +74,15 @@ export default function Smokedope2016() {
       {/* Hero */}
       <section className={`${styles.hero} ${styles.delay0}`}>
         <div className={styles.heroInner}>
+          <div className={styles.briefPanel}>
+            {SITE_BRIEF.map((item) => (
+              <div key={item.label} className={styles.briefCell}>
+                <p className={styles.briefLabel}>{item.label}</p>
+                <p className={styles.briefValue}>{item.value}</p>
+              </div>
+            ))}
+          </div>
+
           <div className={styles.tapeStrip} aria-hidden="true">
             <span>VIRGINIA</span>
             <span className={styles.tapeDot}>●</span>
@@ -93,6 +108,12 @@ export default function Smokedope2016() {
               <span className={styles.heroMetaLabel}>FILED UNDER</span>
               <span className={styles.heroMetaValue}>
                 cloud rap · house · post-party ambient
+              </span>
+            </p>
+            <p className={styles.heroMeta}>
+              <span className={styles.heroMetaLabel}>INTERFACE MODE</span>
+              <span className={styles.heroMetaValue}>
+                archive timeline · staggered narrative
               </span>
             </p>
           </div>
