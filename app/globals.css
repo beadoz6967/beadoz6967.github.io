@@ -14,7 +14,7 @@
 
   --font-oswald: var(--font-oswald), sans-serif;
   --font-crimson: var(--font-crimson), serif;
-  --font-mono: var(--font-share-tech), monospace;
+  --font-mono: var(--font-mono), monospace;
 }
 
 /* Scanlines overlay */

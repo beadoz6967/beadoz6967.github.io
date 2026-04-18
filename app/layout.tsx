@@ -16,11 +16,10 @@ const crimsonPro = Crimson_Pro({
   variable: '--font-crimson',
 })
 
-// Using --font-share-tech to avoid circular reference with Tailwind v4's --font-mono
 const shareTechMono = Share_Tech_Mono({
   subsets: ['latin'],
   weight: ['400'],
-  variable: '--font-share-tech',
+  variable: '--font-mono',
 })
 
 export const metadata: Metadata = {
