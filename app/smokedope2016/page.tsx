@@ -51,69 +51,150 @@ const LINKS = [
   { label: 'YouTube', href: 'https://www.youtube.com/@smokedope2016' },
 ]
 
+// Group tracks by project for setlist rendering, preserving album order.
+const TRACK_SETS = TRILOGY.map((album) => ({
+  numeral: album.numeral,
+  project: album.title,
+  year: album.year,
+  tracks: TRACKS.filter((t) => t.project === album.title),
+}))
+
 export default function Smokedope2016() {
   return (
     <div className={styles.page}>
       <div className={styles.orb} aria-hidden="true" />
+      <div className={styles.orb2} aria-hidden="true" />
 
       {/* Hero */}
-      <section className={`${styles.section} ${styles.hero} ${styles.delay0}`}>
-        <h1 className={styles.heroName}>SMOKEDOPE2016</h1>
-        <p className={styles.heroIdent}>
-          &ldquo;started as a Steam username. ended up here.&rdquo;
-        </p>
-        <p className={styles.heroMeta}>Virginia · anonymous · 1.1M monthly Spotify listeners</p>
+      <section className={`${styles.hero} ${styles.delay0}`}>
+        <div className={styles.heroInner}>
+          <div className={styles.tapeStrip} aria-hidden="true">
+            <span>VIRGINIA</span>
+            <span className={styles.tapeDot}>●</span>
+            <span>ANONYMOUS</span>
+            <span className={styles.tapeDot}>●</span>
+            <span>1.1M MONTHLY</span>
+            <span className={styles.tapeDot}>●</span>
+            <span>NO FACE NO CASE</span>
+          </div>
+
+          <h1 className={styles.heroName}>
+            <span className={styles.heroWord}>SMOKE</span>
+            <span className={`${styles.heroWord} ${styles.heroWordOffset}`}>DOPE</span>
+            <span className={styles.heroYear}>2016</span>
+          </h1>
+
+          <div className={styles.heroSide}>
+            <p className={styles.heroIdent}>
+              &ldquo;started as a Steam username. ended up here.&rdquo;
+            </p>
+            <div className={styles.heroRule} aria-hidden="true" />
+            <p className={styles.heroMeta}>
+              <span className={styles.heroMetaLabel}>FILED UNDER</span>
+              <span className={styles.heroMetaValue}>
+                cloud rap · house · post-party ambient
+              </span>
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Trilogy arc */}
       <section className={`${styles.section} ${styles.delay1}`}>
-        <h2 className={styles.sectionLabel}>The Trilogy</h2>
+        <div className={styles.sectionHead}>
+          <span className={styles.sectionIndex}>/ 01</span>
+          <h2 className={styles.sectionLabel}>The Trilogy</h2>
+          <span className={styles.sectionSpan}>3 ACTS · 2024 — 2026</span>
+        </div>
+
         <div className={styles.trilogyGrid}>
-          {TRILOGY.map((album) => (
-            <article key={album.title} className={styles.albumCard}>
-              <span className={styles.albumNumeral}>{album.numeral}</span>
-              <h3 className={styles.albumTitle}>{album.title}</h3>
-              <span className={styles.albumYear}>{album.year}</span>
-              <p className={styles.albumVibe}>{album.vibe}</p>
-              <a
-                href={album.spotify}
-                className={styles.albumLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Spotify ↗
-              </a>
+          {TRILOGY.map((album, i) => (
+            <article
+              key={album.title}
+              className={`${styles.albumCard} ${styles['card' + i]}`}
+            >
+              <span className={styles.albumNumeral} aria-hidden="true">
+                {album.numeral}
+              </span>
+              <div className={styles.albumInner}>
+                <span className={styles.albumYear}>{album.year}</span>
+                <h3 className={styles.albumTitle}>{album.title}</h3>
+                <p className={styles.albumVibe}>{album.vibe}</p>
+                <a
+                  href={album.spotify}
+                  className={styles.albumLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>STREAM</span>
+                  <span className={styles.arrow}>→</span>
+                </a>
+              </div>
             </article>
           ))}
         </div>
       </section>
 
-      {/* Select tracks */}
+      {/* Setlist */}
       <section className={`${styles.section} ${styles.delay2}`}>
-        <h2 className={styles.sectionLabel}>Select Tracks</h2>
-        <ul className={styles.trackList}>
-          {TRACKS.map((track) => (
-            <li key={track.title} className={styles.trackRow}>
-              <span className={styles.trackName}>{track.title}</span>
-              <span className={styles.trackProject}>{track.project}</span>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.sectionHead}>
+          <span className={styles.sectionIndex}>/ 02</span>
+          <h2 className={styles.sectionLabel}>Setlist</h2>
+          <span className={styles.sectionSpan}>15 CUTS · SELECTED</span>
+        </div>
+
+        <div className={styles.setlist}>
+          {TRACK_SETS.map((set, setIndex) => {
+            const startIndex = TRACK_SETS
+              .slice(0, setIndex)
+              .reduce((count, item) => count + item.tracks.length, 0)
+
+            return (
+              <div key={set.project} className={styles.setGroup}>
+              <header className={styles.setHeader}>
+                <span className={styles.setNumeral}>{set.numeral}</span>
+                <span className={styles.setTitle}>{set.project}</span>
+                <span className={styles.setYear}>{set.year}</span>
+              </header>
+              <ol className={styles.setTracks} start={startIndex + 1}>
+                {set.tracks.map((track, trackIndex) => {
+                  const n = String(startIndex + trackIndex + 1).padStart(2, '0')
+                  return (
+                    <li key={track.title} className={styles.trackRow}>
+                      <span className={styles.trackNum}>{n}</span>
+                      <span className={styles.trackName}>{track.title}</span>
+                      <span className={styles.trackDots} aria-hidden="true" />
+                    </li>
+                  )
+                })}
+              </ol>
+              </div>
+            )
+          })}
+        </div>
       </section>
 
       {/* Links */}
       <section className={`${styles.section} ${styles.delay3}`}>
-        <h2 className={styles.sectionLabel}>Find Him</h2>
+        <div className={styles.sectionHead}>
+          <span className={styles.sectionIndex}>/ 03</span>
+          <h2 className={styles.sectionLabel}>Find Him</h2>
+          <span className={styles.sectionSpan}>EXTERNAL</span>
+        </div>
+
         <ul className={styles.linkList}>
           {LINKS.map((link) => (
-            <li key={link.label}>
+            <li key={link.label} className={styles.linkItem}>
               <a
                 href={link.href}
                 className={styles.extLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {link.label} ↗
+                <span className={styles.extBracket}>[</span>
+                <span className={styles.extLabel}>{link.label}</span>
+                <span className={styles.extBracket}>]</span>
+                <span className={styles.extArrow}>↗</span>
               </a>
             </li>
           ))}
@@ -122,16 +203,21 @@ export default function Smokedope2016() {
 
       {/* Community pulse */}
       <section className={`${styles.section} ${styles.delay4}`}>
-        <p className={styles.communityPulse}>
-          Richest CSGO player in North America. Trapper of the Millennium. No Face No Case.
-          Sold out 1720 LA. 1.1M monthly. The lore writes itself.
-        </p>
-        <p className={styles.communityTag}>#2016LYFE</p>
+        <blockquote className={styles.pulse}>
+          <span className={styles.pulseMark} aria-hidden="true">&ldquo;</span>
+          <p className={styles.pulseText}>
+            Richest CSGO player in North America. Trapper of the Millennium. No Face No Case.
+            Sold out 1720 LA. 1.1M monthly. The lore writes itself.
+          </p>
+          <p className={styles.pulseTag}>#2016LYFE</p>
+        </blockquote>
       </section>
 
       {/* Footer */}
       <footer className={`${styles.footer} ${styles.delay5}`}>
+        <span className={styles.footerRule} aria-hidden="true" />
         <p className={styles.footerText}>no face. no case.</p>
+        <span className={styles.footerMark}>— sd2016 —</span>
       </footer>
     </div>
   )
