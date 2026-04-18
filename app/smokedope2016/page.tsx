@@ -1,3 +1,6 @@
+ 'use client'
+
+import { motion, useReducedMotion } from 'framer-motion'
 import styles from './smokedope.module.css'
 
 const TRILOGY = [
@@ -66,24 +69,66 @@ const TRACK_SETS = TRILOGY.map((album) => ({
 }))
 
 export default function Smokedope2016() {
+  const reduceMotion = useReducedMotion()
+
+  const sectionMotion = reduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.2 },
+        transition: { duration: 0.65, ease: [0.2, 0.8, 0.2, 1] as const },
+      }
+
+  const staggerMotion = reduceMotion
+    ? {}
+    : {
+        initial: 'hidden',
+        whileInView: 'visible',
+        viewport: { once: true, amount: 0.18 },
+        variants: {
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.11,
+              delayChildren: 0.04,
+            },
+          },
+        },
+      }
+
+  const itemMotion = reduceMotion
+    ? {}
+    : {
+        variants: {
+          hidden: { opacity: 0, y: 24, filter: 'blur(4px)' },
+          visible: {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            transition: { duration: 0.55, ease: [0.2, 0.8, 0.2, 1] as const },
+          },
+        },
+      }
+
   return (
     <div className={styles.page}>
       <div className={styles.orb} aria-hidden="true" />
       <div className={styles.orb2} aria-hidden="true" />
 
       {/* Hero */}
-      <section className={`${styles.hero} ${styles.delay0}`}>
-        <div className={styles.heroInner}>
-          <div className={styles.briefPanel}>
+      <motion.section className={styles.hero} {...sectionMotion}>
+        <motion.div className={styles.heroInner} {...staggerMotion}>
+          <motion.div className={styles.briefPanel} {...itemMotion}>
             {SITE_BRIEF.map((item) => (
-              <div key={item.label} className={styles.briefCell}>
+              <motion.div key={item.label} className={styles.briefCell} {...itemMotion}>
                 <p className={styles.briefLabel}>{item.label}</p>
                 <p className={styles.briefValue}>{item.value}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <div className={styles.tapeStrip} aria-hidden="true">
+          <motion.div className={styles.tapeStrip} aria-hidden="true" {...itemMotion}>
             <span>VIRGINIA</span>
             <span className={styles.tapeDot}>●</span>
             <span>ANONYMOUS</span>
@@ -91,48 +136,49 @@ export default function Smokedope2016() {
             <span>1.1M MONTHLY</span>
             <span className={styles.tapeDot}>●</span>
             <span>NO FACE NO CASE</span>
-          </div>
+          </motion.div>
 
-          <h1 className={styles.heroName}>
-            <span className={styles.heroWord}>SMOKE</span>
-            <span className={`${styles.heroWord} ${styles.heroWordOffset}`}>DOPE</span>
-            <span className={styles.heroYear}>2016</span>
-          </h1>
+          <motion.h1 className={styles.heroName} {...itemMotion}>
+            <motion.span className={styles.heroWord} {...itemMotion}>SMOKE</motion.span>
+            <motion.span className={`${styles.heroWord} ${styles.heroWordOffset}`} {...itemMotion}>DOPE</motion.span>
+            <motion.span className={styles.heroYear} {...itemMotion}>2016</motion.span>
+          </motion.h1>
 
-          <div className={styles.heroSide}>
-            <p className={styles.heroIdent}>
+          <motion.div className={styles.heroSide} {...itemMotion}>
+            <motion.p className={styles.heroIdent} {...itemMotion}>
               &ldquo;started as a Steam username. ended up here.&rdquo;
-            </p>
-            <div className={styles.heroRule} aria-hidden="true" />
-            <p className={styles.heroMeta}>
+            </motion.p>
+            <motion.div className={styles.heroRule} aria-hidden="true" {...itemMotion} />
+            <motion.p className={styles.heroMeta} {...itemMotion}>
               <span className={styles.heroMetaLabel}>FILED UNDER</span>
               <span className={styles.heroMetaValue}>
                 cloud rap · house · post-party ambient
               </span>
-            </p>
-            <p className={styles.heroMeta}>
+            </motion.p>
+            <motion.p className={styles.heroMeta} {...itemMotion}>
               <span className={styles.heroMetaLabel}>INTERFACE MODE</span>
               <span className={styles.heroMetaValue}>
                 archive timeline · staggered narrative
               </span>
-            </p>
-          </div>
-        </div>
-      </section>
+            </motion.p>
+          </motion.div>
+        </motion.div>
+      </motion.section>
 
       {/* Trilogy arc */}
-      <section className={`${styles.section} ${styles.delay1}`}>
+      <motion.section className={styles.section} {...sectionMotion}>
         <div className={styles.sectionHead}>
           <span className={styles.sectionIndex}>/ 01</span>
           <h2 className={styles.sectionLabel}>The Trilogy</h2>
           <span className={styles.sectionSpan}>3 ACTS · 2024 — 2026</span>
         </div>
 
-        <div className={styles.trilogyGrid}>
+        <motion.div className={styles.trilogyGrid} {...staggerMotion}>
           {TRILOGY.map((album, i) => (
-            <article
+            <motion.article
               key={album.title}
               className={`${styles.albumCard} ${styles['card' + i]}`}
+              {...itemMotion}
             >
               <span className={styles.albumNumeral} aria-hidden="true">
                 {album.numeral}
@@ -151,61 +197,61 @@ export default function Smokedope2016() {
                   <span className={styles.arrow}>→</span>
                 </a>
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* Setlist */}
-      <section className={`${styles.section} ${styles.delay2}`}>
+      <motion.section className={styles.section} {...sectionMotion}>
         <div className={styles.sectionHead}>
           <span className={styles.sectionIndex}>/ 02</span>
           <h2 className={styles.sectionLabel}>Setlist</h2>
           <span className={styles.sectionSpan}>15 CUTS · SELECTED</span>
         </div>
 
-        <div className={styles.setlist}>
+        <motion.div className={styles.setlist} {...staggerMotion}>
           {TRACK_SETS.map((set, setIndex) => {
             const startIndex = TRACK_SETS
               .slice(0, setIndex)
               .reduce((count, item) => count + item.tracks.length, 0)
 
             return (
-              <div key={set.project} className={styles.setGroup}>
-              <header className={styles.setHeader}>
-                <span className={styles.setNumeral}>{set.numeral}</span>
-                <span className={styles.setTitle}>{set.project}</span>
-                <span className={styles.setYear}>{set.year}</span>
-              </header>
-              <ol className={styles.setTracks} start={startIndex + 1}>
-                {set.tracks.map((track, trackIndex) => {
-                  const n = String(startIndex + trackIndex + 1).padStart(2, '0')
-                  return (
-                    <li key={track.title} className={styles.trackRow}>
-                      <span className={styles.trackNum}>{n}</span>
-                      <span className={styles.trackName}>{track.title}</span>
-                      <span className={styles.trackDots} aria-hidden="true" />
-                    </li>
-                  )
-                })}
-              </ol>
-              </div>
+              <motion.div key={set.project} className={styles.setGroup} {...itemMotion}>
+                <header className={styles.setHeader}>
+                  <span className={styles.setNumeral}>{set.numeral}</span>
+                  <span className={styles.setTitle}>{set.project}</span>
+                  <span className={styles.setYear}>{set.year}</span>
+                </header>
+                <motion.ol className={styles.setTracks} start={startIndex + 1} {...staggerMotion}>
+                  {set.tracks.map((track, trackIndex) => {
+                    const n = String(startIndex + trackIndex + 1).padStart(2, '0')
+                    return (
+                      <motion.li key={track.title} className={styles.trackRow} {...itemMotion}>
+                        <span className={styles.trackNum}>{n}</span>
+                        <span className={styles.trackName}>{track.title}</span>
+                        <span className={styles.trackDots} aria-hidden="true" />
+                      </motion.li>
+                    )
+                  })}
+                </motion.ol>
+              </motion.div>
             )
           })}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* Links */}
-      <section className={`${styles.section} ${styles.delay3}`}>
+      <motion.section className={styles.section} {...sectionMotion}>
         <div className={styles.sectionHead}>
           <span className={styles.sectionIndex}>/ 03</span>
           <h2 className={styles.sectionLabel}>Find Him</h2>
           <span className={styles.sectionSpan}>EXTERNAL</span>
         </div>
 
-        <ul className={styles.linkList}>
+        <motion.ul className={styles.linkList} {...staggerMotion}>
           {LINKS.map((link) => (
-            <li key={link.label} className={styles.linkItem}>
+            <motion.li key={link.label} className={styles.linkItem} {...itemMotion}>
               <a
                 href={link.href}
                 className={styles.extLink}
@@ -217,29 +263,29 @@ export default function Smokedope2016() {
                 <span className={styles.extBracket}>]</span>
                 <span className={styles.extArrow}>↗</span>
               </a>
-            </li>
+            </motion.li>
           ))}
-        </ul>
-      </section>
+        </motion.ul>
+      </motion.section>
 
       {/* Community pulse */}
-      <section className={`${styles.section} ${styles.delay4}`}>
-        <blockquote className={styles.pulse}>
+      <motion.section className={styles.section} {...sectionMotion}>
+        <motion.blockquote className={styles.pulse} {...itemMotion}>
           <span className={styles.pulseMark} aria-hidden="true">&ldquo;</span>
           <p className={styles.pulseText}>
             Richest CSGO player in North America. Trapper of the Millennium. No Face No Case.
             Sold out 1720 LA. 1.1M monthly. The lore writes itself.
           </p>
           <p className={styles.pulseTag}>#2016LYFE</p>
-        </blockquote>
-      </section>
+        </motion.blockquote>
+      </motion.section>
 
       {/* Footer */}
-      <footer className={`${styles.footer} ${styles.delay5}`}>
+      <motion.footer className={styles.footer} {...sectionMotion}>
         <span className={styles.footerRule} aria-hidden="true" />
         <p className={styles.footerText}>no face. no case.</p>
         <span className={styles.footerMark}>— sd2016 —</span>
-      </footer>
+      </motion.footer>
     </div>
   )
 }
