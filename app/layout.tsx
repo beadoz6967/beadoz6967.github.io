@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Oswald, Crimson_Pro, Share_Tech_Mono } from 'next/font/google'
 import './globals.css'
-import NavBar from '@/components/NavBar'
+import UniversalMenu from '@/components/UniversalMenu'
 
 const oswald = Oswald({
   subsets: ['latin'],
@@ -44,7 +44,7 @@ export default function RootLayout({
           'bg-void text-bone antialiased',
         ].join(' ')}
       >
-        <NavBar />
+        <UniversalMenu />
         {children}
         <footer className="text-center py-6">
           <p className="font-mono text-[10px] text-bone-dim opacity-40">

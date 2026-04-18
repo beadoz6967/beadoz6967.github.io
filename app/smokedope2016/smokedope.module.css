@@ -1,0 +1,285 @@
+.page {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #000000;
+  padding-top: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  background: #f0f0f0;
+  border-bottom: 1px solid #c0c0c0;
+  padding: 16px 20px 12px;
+  text-align: center;
+}
+
+.siteTitle {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #000000;
+  letter-spacing: 2px;
+  margin: 0 0 4px;
+}
+
+.tagline {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #666666;
+  margin: 0;
+}
+
+.canvas {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- OS Window chrome ---- */
+.window {
+  background: #d4d0c8;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: 1px 1px 0 #000000;
+}
+
+.titleBar {
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px;
+  user-select: none;
+}
+
+.titleText {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.titleButtons {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.titleBtn {
+  width: 16px;
+  height: 14px;
+  background: #d4d0c8;
+  color: #000000;
+  border: 1px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  font-size: 9px;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: default;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.titleBtn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.windowBody {
+  padding: 8px;
+  background: #ffffff;
+  border-top: 1px solid #808080;
+}
+
+/* ---- Bio ---- */
+.bioHeading {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 8px;
+  color: #000000;
+}
+
+.bioText {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #000000;
+  white-space: pre-line;
+  margin: 0;
+}
+
+/* ---- Links ---- */
+.link {
+  color: #0000ee;
+  text-decoration: underline;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.link:visited {
+  color: #551a8b;
+}
+
+/* ---- Winamp ---- */
+.winampPlayer {
+  background: #1a1a1a;
+  padding: 6px;
+}
+
+.lcdDisplay {
+  background: #0a0a0a;
+  color: #cc6600;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  padding: 4px 6px;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+}
+
+.progressBar {
+  height: 6px;
+  background: #444444;
+  border: 1px solid #555555;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  height: 100%;
+  background: #cc6600;
+}
+
+.transport {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.tBtn {
+  background: #c0c0c0;
+  border: 1px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  color: #000000;
+  font-size: 11px;
+  padding: 2px 5px;
+  cursor: default;
+  min-width: 24px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.2;
+}
+
+.tBtn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.volumeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  color: #888888;
+}
+
+.volSlider {
+  flex: 1;
+  height: 6px;
+  background: #444444;
+  border: 1px solid #555555;
+}
+
+.volFill {
+  height: 100%;
+  background: #cc6600;
+}
+
+/* ---- Image grid ---- */
+.imgGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.imgItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.imgBox {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #c0c0c0;
+  border: 1px solid #808080;
+}
+
+.imgCaption {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  color: #000000;
+  text-align: center;
+  word-break: break-all;
+  width: 100%;
+}
+
+/* ---- Desktop overlapping layout ---- */
+@media (min-width: 640px) {
+  .canvas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0;
+    align-items: start;
+    position: relative;
+  }
+
+  .winBio {
+    grid-column: 1;
+    grid-row: 1;
+    position: relative;
+    z-index: 2;
+    transform: translate(8px, 24px);
+    margin-bottom: 8px;
+  }
+
+  .winWinamp {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    z-index: 3;
+    transform: translate(-16px, 0px);
+    max-width: 270px;
+    margin-left: auto;
+  }
+
+  .winGallery {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    position: relative;
+    z-index: 1;
+    transform: translate(28px, -8px);
+    max-width: 480px;
+  }
+
+  .winLinks {
+    grid-column: 2;
+    grid-row: 2;
+    position: relative;
+    z-index: 4;
+    transform: translate(-8px, 24px);
+    max-width: 210px;
+    margin-left: auto;
+  }
+}
