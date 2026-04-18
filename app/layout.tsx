@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Oswald, Crimson_Pro, Share_Tech_Mono } from 'next/font/google'
 import './globals.css'
-import NavBar from '@/components/NavBar'
+import UniversalMenu from '@/components/UniversalMenu'
 
 const oswald = Oswald({
   subsets: ['latin'],
@@ -41,16 +41,18 @@ export default function RootLayout({
           oswald.variable,
           crimsonPro.variable,
           shareTechMono.variable,
-          'bg-void text-bone antialiased',
+          'bg-void text-bone antialiased flex',
         ].join(' ')}
       >
-        <NavBar />
-        {children}
-        <footer className="text-center py-6">
-          <p className="font-mono text-[10px] text-bone-dim opacity-40">
-            dihdevil.me
-          </p>
-        </footer>
+        <UniversalMenu />
+        <div className="flex flex-col flex-1 ml-[170px] min-h-screen">
+          {children}
+          <footer className="text-center py-6">
+            <p className="font-mono text-[10px] text-bone-dim opacity-40">
+              dihdevil.me
+            </p>
+          </footer>
+        </div>
       </body>
     </html>
   )
